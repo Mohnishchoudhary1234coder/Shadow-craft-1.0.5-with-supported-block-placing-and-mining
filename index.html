@@ -14,15 +14,17 @@
     .joy-knob { width:48px; height:48px; background:rgba(255,255,255,0.14); border-radius:50%; transform:translate(-50%,-50%); position:absolute; left:50%; top:50%; pointer-events:none; display:flex; align-items:center; justify-content:center; color:#fff; font-size:14px; }
     #right-controls { margin-right:12px; display:flex; flex-direction:column; gap:10px; pointer-events:none; align-items:flex-end; }
     #look-area {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 50%;
-  background: rgba(255,255,255,0.02); /* optional */
+  position: absolute;
+  bottom: 100px; /* leaves space for buttons */
+  right: 12px;
+  width: 220px;
+  height: 140px;
+  background: rgba(255,255,255,0.03);
+  border-radius: 12px;
   touch-action: none;
-  pointer-events: none; /* this is key */
+  pointer-events: auto;
   z-index: 40;
+  border: 1px solid rgba(255,255,255,0.06);
     }
     
     
