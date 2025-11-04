@@ -76,13 +76,25 @@
   background-size: cover;
   background-position: center;
 }
+    #crosshair {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 28px;
+  color: rgba(255,255,255,0.85);
+  z-index: 65;
+  pointer-events: none;
+  user-select: none;
+    }
     
   </style>
 </head>
 <body>
   <div id="hud">Loading...</div>
   <div id="hint">Click to lock pointer (desktop). WASD to move, Space to jump, Q break. Placing remains disabled by default. Mobile: left joystick move, right drag look.</div>
-
+<div id="crosshair">+</div>
+  
   <div id="controls-ui" aria-hidden="true">
     
     <div id="joy-left" aria-hidden="true"><div class="joy-bg"></div><div class="joy-knob" id="joy-knob">•</div></div>
@@ -532,7 +544,24 @@ if (btnInventory) {
       const tgt = getBlockTarget();
       const cross = document.getElementById('crosshair');
       if(cross) cross.style.color = tgt ? '#ffd36b' : 'rgba(255,255,255,0.85)';
+if (!window._highlightMesh) {
+  const highlightMat = new THREE.MeshBasicMaterial({ color: 0xffd36b, wireframe: true });
+  const highlightGeom = new THREE.BoxGeometry(1.01, 1.01, 1.01);
+  window._highlightMesh = new THREE.Mesh(highlightGeom, highlightMat);
+  scene.add(window._highlightMesh);
+}
 
+if (tgt && tgt.block) {
+  window._highlightMesh.visible = true;
+  window._highlightMesh.position.set(
+    tgt.block.x + 0.5,
+    tgt.block.y + 0.5,
+    tgt.block.z + 0.5
+  );
+} else {
+  window._highlightMesh.visible = false;
+}
+      
       // breaking
       if(inputState.break && breakTimer <= 0 && tgt){
         const bx = tgt.block.x, by = tgt.block.y, bz = tgt.block.z;
