@@ -70,13 +70,16 @@
   <div id="hint">Click to lock pointer (desktop). WASD to move, Space to jump, Q break. Placing remains disabled by default. Mobile: left joystick move, right drag look.</div>
 
   <div id="controls-ui" aria-hidden="true">
+    <div id="btn-inventory" class="btn" title="Open Inventory">🎒</div>
+    
     <div id="joy-left" aria-hidden="true"><div class="joy-bg"></div><div class="joy-knob" id="joy-knob">•</div></div>
     <div id="right-controls" aria-hidden="true">
       <div id="look-area" title="Drag here to look (mobile)"></div>
       <div class="action-row">
         <div class="btn" id="btn-break">⛏</div>
-        <div class="btn" id="btn-jump">⤴</div>
+        <div class="btn" id="btn-jump">⏫</div>
         <div class="btn" id="btn-place">🧱</div>
+        <div class="btn" id="btn-inventory">🎒</div>
       </div>
     </div>
   </div>
@@ -322,6 +325,17 @@ for (const id in BLOCKS) {
 
       // on-screen buttons
       const btnPlace = document.getElementById('btn-place'), btnBreak = document.getElementById('btn-break'), btnJump = document.getElementById('btn-jump');
+      const btnInventory = document.getElementById('btn-inventory');
+if (btnInventory) {
+  btnInventory.addEventListener('touchstart', e => {
+    e.preventDefault();
+    const panel = document.getElementById('inventory-panel');
+    const isVisible = panel.style.display === 'block';
+    panel.style.display = isVisible ? 'none' : 'block';
+    if (!isVisible) rebuildInventoryUI();
+  }, { passive: false });
+}
+      
       if(btnPlace){ btnPlace.addEventListener('touchstart', e=>{ e.preventDefault(); inputState.place = true; }, {passive:false}); btnPlace.addEventListener('touchend', e=>{ inputState.place = false; }, {passive:true}); }
       if(btnBreak){ btnBreak.addEventListener('touchstart', e=>{ e.preventDefault(); inputState.break = true; }, {passive:false}); btnBreak.addEventListener('touchend', e=>{ inputState.break = false; }, {passive:true}); }
       if(btnJump){ btnJump.addEventListener('touchstart', e=>{ e.preventDefault(); inputState.jump = true; }, {passive:false}); btnJump.addEventListener('touchend', e=>{ inputState.jump = false; }, {passive:true}); }
